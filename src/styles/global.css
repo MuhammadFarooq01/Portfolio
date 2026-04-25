@@ -2,45 +2,73 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&display=swap');
 
-body {
-    background-color: #0a0a0a;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.40' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='0.09'/%3E%3C/svg%3E");
-    background-repeat: repeat;
-    min-height: 100vh;
-    margin: 0;
-    font-family: 'Inter', sans-serif;
-    color: #ffffff;
-}
-
-html {
-    scroll-behavior: smooth;
-}
+@custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
+    /* Light Mode Defaults */
+    --color-accent: #fbbf24;
+    --color-accent-light: #fcd34d;
+    --color-accent-dark: #d97706;
+    --color-surface: #f3f4f6;
+    --color-surface-light: #ffffff;
+    --color-muted: #6b7280;
+
+    --bg-main: #fafafa;
+    --text-main: #111827;
+}
+
+/* Dark Mode Overrides */
+.dark {
     --color-accent: #8b5cf6;
     --color-accent-light: #a78bfa;
     --color-accent-dark: #7c3aed;
     --color-surface: #141418;
     --color-surface-light: #1e1e24;
     --color-muted: #9ca3af;
+
+    --bg-main: #0a0a0a;
+    --text-main: #ffffff;
+}
+
+body {
+    background-color: var(--bg-main);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.40' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='0.09'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    min-height: 100vh;
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    color: var(--text-main);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+html {
+    scroll-behavior: smooth;
 }
 
 .noise-card {
-    background-color: rgba(39, 40, 41, 0.3);
-    /* 0.7 = opacity */
+    background-color: var(--color-surface-light);
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.70' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='0.14'/%3E%3C/svg%3E");
     background-repeat: repeat;
+    transition: background-color 0.35s ease, box-shadow 0.35s ease;
+}
+
+.dark .noise-card {
+    background-color: rgba(39, 40, 41, 0.3);
 }
 
 .hero-reality {
-    color: #8b5cf6;
+    color: var(--color-accent);
     font-family: 'Playfair Display', serif;
     font-style: italic;
     font-weight: 700;
 }
 
 .hero-cta-btn {
-    background-color: #8b5cf6;
+    background-color: var(--color-accent);
+}
+
+.dark .hero-cta-btn {
+    color: #ffffff;
 }
 
 /* Logo Marquee — animation not expressible in Tailwind */
@@ -69,7 +97,7 @@ html {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    color: #6b7280;
+    color: var(--color-muted);
     font-weight: 600;
     font-size: 0.95rem;
     white-space: nowrap;
@@ -93,8 +121,17 @@ html {
 
 .project-card:hover {
     transform: translateY(-6px);
-    box-shadow: 0 20px 40px rgba(139, 92, 246, 0.08),
+    box-shadow: 0 20px 40px rgba(var(--color-accent), 0.08),
         0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+/* Specific hover shadow for light/dark mode */
+.project-card:hover {
+    box-shadow: 0 20px 40px rgba(139, 92, 246, 0.08), 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+.dark .project-card:hover {
+    box-shadow: 0 20px 40px rgba(139, 92, 246, 0.12), 0 8px 16px rgba(0, 0, 0, 0.5);
 }
 
 .project-card-img {
@@ -110,10 +147,18 @@ html {
 }
 
 .nav-pill {
-    background: rgba(14, 14, 18, 0.88);
+    background: var(--nav-bg, rgba(255, 255, 255, 0.85));
     backdrop-filter: blur(24px);
     -webkit-backdrop-filter: blur(24px);
-    border: 1px solid rgba(255, 255, 255, 0.07);
+    border: 1px solid var(--nav-border, rgba(0, 0, 0, 0.08));
+    box-shadow:
+        0 8px 40px rgba(0, 0, 0, 0.08),
+        0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.dark .nav-pill {
+    --nav-bg: rgba(14, 14, 18, 0.88);
+    --nav-border: rgba(255, 255, 255, 0.07);
     box-shadow:
         0 8px 40px rgba(0, 0, 0, 0.5),
         0 2px 8px rgba(0, 0, 0, 0.4),
@@ -121,11 +166,16 @@ html {
 }
 
 .nav-active {
-    background: rgba(139, 92, 246, 0.15);
-    color: #c4b5fd;
+    background: rgba(var(--color-accent), 0.15);
+    background-color: color-mix(in srgb, var(--color-accent) 15%, transparent);
+    color: var(--color-accent-light);
     box-shadow:
-        inset 0 1px 0 rgba(167, 139, 250, 0.12),
-        0 0 12px rgba(139, 92, 246, 0.1);
+        inset 0 1px 0 color-mix(in srgb, var(--color-accent-light) 12%, transparent),
+        0 0 12px color-mix(in srgb, var(--color-accent) 10%, transparent);
+}
+
+.dark .nav-active {
+    color: #c4b5fd;
 }
 
 /* Icon sizing inside nav */
@@ -160,4 +210,52 @@ html {
 .scroll-reveal.visible {
     opacity: 1;
     transform: translateY(0);
+}
+
+.collab-card {
+    background-color: #111827;
+    color: #ffffff;
+}
+
+.dark .collab-card {
+    background-color: var(--color-surface-light);
+}
+
+.collab-arrow {
+    background-color: var(--color-accent);
+    color: #111827;
+}
+
+.tech-pill {
+    background-color: rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.dark .tech-pill {
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.tech-label {
+    color: var(--color-muted);
+}
+
+.tech-label:hover {
+    color: var(--text-main);
+}
+
+.project-section-label {
+    font-size: 0.65rem;
+    color: var(--color-muted);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+}
+
+.prose a {
+    color: var(--color-accent);
+}
+
+.prose a:hover {
+    color: var(--color-accent-dark);
 }
