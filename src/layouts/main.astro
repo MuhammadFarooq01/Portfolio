@@ -1,0 +1,56 @@
+---
+import Navbar from "../components/navbar.astro";
+import { ClientRouter } from "astro:transitions";
+import "../styles/global.css";
+
+interface Props {
+	title?: string;
+	description?: string;
+}
+
+const {
+	title = "Muhammad Farooq — Full Stack Developer",
+	description = "Full Stack Developer based in Islamabad, Pakistan. Specializing in React, Next.js, Node.js and modern web technologies.",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta name="description" content={description} />
+		<title>{title}</title>
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+		<ClientRouter />
+	</head>
+	<body>
+		<Navbar />
+		<slot />
+		<script>
+			document.addEventListener("astro:page-load", () => {
+				const observerOptions = {
+					root: null,
+					rootMargin: "0px",
+					threshold: 0.1,
+				};
+
+				const observer = new IntersectionObserver((entries) => {
+					entries.forEach((entry) => {
+						if (entry.isIntersecting) {
+							entry.target.classList.add("visible");
+							observer.unobserve(entry.target);
+						}
+					});
+				}, observerOptions);
+
+				document
+					.querySelectorAll(".scroll-reveal")
+					.forEach((element) => {
+						observer.observe(element);
+					});
+			});
+		</script>
+	</body>
+</html>

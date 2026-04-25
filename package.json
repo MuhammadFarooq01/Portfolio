@@ -9,6 +9,14 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^5.17.1"
+    "@lucide/astro": "^0.577.0",
+    "@tailwindcss/vite": "^4.2.1",
+    "astro": "^5.17.1",
+    "fslightbox": "^3.7.5",
+    "marked": "^17.0.4",
+    "plyr": "^3.8.4",
+    "svelte": "^5.53.7",
+    "tailwindcss": "^4.2.1",
+    "typescript": "^5.9.3"
   }
 }
